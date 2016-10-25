@@ -1,0 +1,330 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Server"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "User name for the Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Virtual Machine."
+      }
+    },
+    "dnsNameForPublicIP": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+      }
+    },
+    "ubuntuOSVersion": {
+      "type": "string",
+      "defaultValue": "14.04.2-LTS",
+      "allowedValues": [
+        "14.04.2-LTS",
+        "15.04"
+      ],
+      "metadata": {
+        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values: 14.04.2-LTS, 15.04."
+      }
+  },
+  "Size": {
+    "type": "string",
+    "defaultValue": "Standard_A0",
+    "allowedValues": [
+      "Standard_A0",
+      "Standard_A1"
+    ],
+    "metadata": {
+      "description": "The size and type for the VM. For sizes see https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-size-specs/"
+    }
+  },
+  "Application": {
+    "type": "string",
+    "defaultValue": "Unifi_Controller",
+    "allowedValues": [
+      "Unifi_Controller"
+    ],
+    "metadata": {
+      "description": "Installs selected application"
+      }
+    },
+    "ExternalIPofDevices": {
+      "type": "string",
+      "defaultValue": "x.x.x.x",
+      "metadata": {
+        "description": "The External IP of the devices going to be managed"
+        }
+      }
+  },
+  "variables": {
+    "TemplateBase": "https://raw.githubusercontent.com/jonaserikson/azure/master/quick-redeploy-unifi-controller/",
+    "ScriptFile": "[parameters('Application')]",
+    "ScriptType": ".sh",
+    "apiVersion": "2015-05-01-preview",
+    "Location": "[resourceGroup().location]",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "addressPrefix": "10.10.0.0/8",
+    "subnetName": "subnet01",
+    "subnetPrefix": "10.10.0.0/24",
+    "staticPrivateIP": "10.10.0.4",
+    "storageAccountType": "Standard_LRS",
+    "publicIPAddressType": "Dynamic",
+    "vmStorageAccountContainerName": "vhds",
+    "virtualNetworkName": "vnet01",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "PIPid": "[concat(parameters('ServerName'),variables('PIPdef'))]",
+    "Nicid": "[concat(parameters('ServerName'),variables('NICdef'))]",
+    "NSGid": "[concat(parameters('ServerName'),variables('NSGDef'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "SADef": "sa",
+    "NICDef": "nic",
+    "PIPDef": "pip",
+    "NSGDef": "nsg",
+    "OSDISKDef": "osdisk"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[concat(parameters('ServerName'),variables('SAdef'))]",
+      "apiVersion": "[variables('apiVersion')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('NSGid')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "22",
+            "properties": {
+              "description": "Port 22",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "8443",
+            "properties": {
+              "description": "Port 8443",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8443",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 101,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "8080",
+            "properties": {
+              "description": "Port 8080",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8080",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 102,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "8088",
+            "properties": {
+              "description": "Port 8088",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8088",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 103,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "8843",
+            "properties": {
+              "description": "Port 8843",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8843",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 104,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "3478",
+            "properties": {
+              "description": "Port 3478",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3478",
+              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "destinationAddressPrefix": "[variables('staticPrivateIP')]",
+              "access": "Allow",
+              "priority": 105,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(parameters('ServerName'),variables('PIPdef'))]",
+      "location": "[variables('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+      "[concat('Microsoft.Network/networkSecurityGroups/',variables('NSGid'))]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('NSGid'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('ServerName'),variables('NICDef'))]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/',parameters('ServerName'),variables('PIPdef'))]",
+        "[concat('Microsoft.Network/virtualNetworks/',variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "PrivateIpAddress": "[variables('staticPrivateIP')]",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('PIPid'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('ServerName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('ServerName'),variables('SAdef'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('ServerName'),variables('NICDef'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('Size')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('ServerName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[parameters('ubuntuOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('ServerName'),variables('OSDISKdef'))]",
+            "vhd": {
+              "uri": "[concat('http://',parameters('ServerName'),variables('SAdef'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',parameters('ServerName'),variables('OSDISKdef'),'.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('NICid'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('ServerName'),'/newuserscript')]",
+      "apiVersion": "[variables('apiVersion')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('ServerName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.2",
+        "settings": {
+          "fileUris": [
+            "[concat(variables('TemplateBase'),variables('ScriptFile'),variables('ScriptType'))]"
+          ],
+          "commandToExecute": "[concat('sh ',variables('ScriptFile'),variables('ScriptType'))]"
+        }
+      }
+    }
+  ]
+}
