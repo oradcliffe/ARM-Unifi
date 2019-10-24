@@ -5,7 +5,7 @@
     "ServerName": {
       "type": "string",
       "metadata": {
-        "description": "Internal name of controller server."
+        "description": "Internal name of controller server.  Must have fewer than 20 characters"
       }
     },
     "adminUsername": {
@@ -75,9 +75,9 @@
     "PIPid": "[concat(parameters('ServerName'),variables('PIPdef'))]",
     "Nicid": "[concat(parameters('ServerName'),variables('NICdef'))]",
     "NSGid": "[concat(parameters('ServerName'),variables('NSGDef'))]",
+    "saID": "[concat(parameters('ServerName'),variables('SADef'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "SADef": "sa",
-    "shortName": "[substring(parameters('ServerName'), 0, 22)]",
     "NICDef": "nic",
     "PIPDef": "pip",
     "NSGDef": "nsg",
@@ -86,7 +86,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(parameters('shortName'),variables('SAdef'))]",
+      "name": "[variables('saID')]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[variables('location')]",
       "properties": {
