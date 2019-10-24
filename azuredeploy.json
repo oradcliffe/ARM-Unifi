@@ -85,7 +85,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(parameters('ServerName'),variables('SAdef'))]",
+      "name": "[concat(substring(parameters('ServerName'), 0, 22),variables('SAdef'))]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[variables('location')]",
       "properties": {
