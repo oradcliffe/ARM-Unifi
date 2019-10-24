@@ -75,7 +75,7 @@
     "PIPid": "[concat(parameters('ServerName'),variables('PIPdef'))]",
     "Nicid": "[concat(parameters('ServerName'),variables('NICdef'))]",
     "NSGid": "[concat(parameters('ServerName'),variables('NSGDef'))]",
-    "saID": "[concat(parameters('ServerName'),variables('SADef'))]",
+    "saID": "[toLower(concat(parameters('ServerName'),variables('SADef')))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "SADef": "sa",
     "NICDef": "nic",
@@ -86,7 +86,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[toLower(variables('saID'))]",
+      "name": "[(variables('saID')]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[variables('location')]",
       "properties": {
