@@ -71,6 +71,7 @@
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "virtualNetworkName": "vnet01",
+    "publicDNSName": "[toLower(parameters('dnsNameForPublicIP')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "PIPid": "[concat(parameters('ServerName'),variables('PIPdef'))]",
     "Nicid": "[concat(parameters('ServerName'),variables('NICdef'))]",
@@ -107,7 +108,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 100,
@@ -121,7 +122,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "8443",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 101,
@@ -135,7 +136,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "8080",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 102,
@@ -149,7 +150,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "8088",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 103,
@@ -163,7 +164,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "8843",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 104,
@@ -177,7 +178,7 @@
               "protocol": "Udp",
               "sourcePortRange": "*",
               "destinationPortRange": "3478",
-              "sourceAddressPrefix": "[parameters('ExternalIPofDevices')]",
+              "sourceAddressPrefix": "[parameters('PublicIP')]",
               "destinationAddressPrefix": "[variables('staticPrivateIP')]",
               "access": "Allow",
               "priority": 105,
@@ -195,7 +196,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
+          "domainNameLabel": "[variables('publicDNSName')]"
         }
       }
     },
