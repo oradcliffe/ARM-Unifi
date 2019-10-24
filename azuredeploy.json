@@ -71,7 +71,7 @@
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "virtualNetworkName": "vnet01",
-    "publicDNSName": "[toLower(parameters('dnsNameForPublicIP')]",
+    "publicDNSName": "[toLower(parameters('dnsNameForPublicIP'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "PIPid": "[concat(parameters('ServerName'),variables('PIPdef'))]",
     "Nicid": "[concat(parameters('ServerName'),variables('NICdef'))]",
