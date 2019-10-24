@@ -86,7 +86,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('saID')]",
+      "name": "[toLower(variables('saID'))]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[variables('location')]",
       "properties": {
