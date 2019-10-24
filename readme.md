@@ -1,7 +1,10 @@
 # ARM Unifi Controller on Ubuntu in Azure
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjonaserikson%2FAzure%2Fmaster%2Fquick-redeploy-unifi-controller%2Fredeploy-main.json" target="_blank">
-    <img src="https://redeploy.se/wp-content/uploads/2015/11/redeploy-to-azure.png"/>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Foradcliffe%2FARM-Unifi%2Fmaster%2Fazuredeploy.json" target="_blank">
+    <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
+</a>
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Foradcliffe%2FARM-Unifi%2Fmaster%2Fazuredeploy.json" target="_blank">
+<img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.png"/>
 </a>
 
 This ARM template and configuration was borrowed from https://redeploy.se/deploy-unifi-controller-in-azure/
