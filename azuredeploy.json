@@ -48,7 +48,7 @@
       "description": "The size and type for the VM. For sizes see https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-size-specs/"
     }
   },
-    "ExternalIPofDevices": {
+    "PublicIP": {
       "type": "string",
       "metadata": {
         "description": "Public IPv4 IP address of the network with the access point to be managed (i.e. your public IP address)"
