@@ -5,19 +5,19 @@
     "ServerName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Server"
+        "description": "Internal name of controller server."
       }
     },
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "User name for the Virtual Machine."
+        "description": "Admin username to manage the VM and application."
       }
     },
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Password for the Virtual Machine."
+        "description": "Admin password for the VM and application."
       }
     },
     "dnsNameForPublicIP": {
@@ -48,27 +48,16 @@
       "description": "The size and type for the VM. For sizes see https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-size-specs/"
     }
   },
-  "Application": {
-    "type": "string",
-    "defaultValue": "Unifi_Controller",
-    "allowedValues": [
-      "Unifi_Controller"
-    ],
-    "metadata": {
-      "description": "Installs selected application"
-      }
-    },
     "ExternalIPofDevices": {
       "type": "string",
-      "defaultValue": "x.x.x.x",
       "metadata": {
-        "description": "The External IP of the devices going to be managed"
+        "description": "Public IPv4 IP address of the network with the access point to be managed (i.e. your public IP address)"
         }
       }
   },
   "variables": {
-    "TemplateBase": "https://raw.githubusercontent.com/jonaserikson/Azure/master/JSON/quick-redeploy-unifi-controller/",
-    "ScriptFile": "[parameters('Application')]",
+    "TemplateBase": "https://raw.githubusercontent.com/oradcliffe/ARM-Unifi/master/",
+    "ScriptFile": "Unifi_Controller",
     "ScriptType": ".sh",
     "apiVersion": "2015-05-01-preview",
     "Location": "[resourceGroup().location]",
