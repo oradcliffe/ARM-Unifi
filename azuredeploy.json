@@ -31,10 +31,12 @@
       "defaultValue": "18.04-LTS",
       "allowedValues": [
         "18.04-LTS",
-        "16.04-LTS"
+        "16.04.0-LTS",
+        "14.04.5-LTS",
+        "12.04.5-LTS"
       ],
       "metadata": {
-        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values: 14.04.2-LTS, 15.04."
+        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version."
       }
   },
   "Size": {
