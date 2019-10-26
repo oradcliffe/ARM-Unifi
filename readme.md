@@ -17,3 +17,5 @@ It also creates and deploys a full Azure infrastructure configuration for the VM
 Click the above link and fill in the required info for install!
 
 Access your Unifi controller via https://yourPublicIP:8443
+
+For instructions on adoption, please see [this document](https://dl.ubnt.com/guides/UniFi/UniFi_Controller_V4_UG.pdf) starting on page 122.  DNS, DHCP, or SSH'ing directly into the AP are all valid.
