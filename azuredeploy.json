@@ -61,7 +61,7 @@
     "TemplateBase": "https://raw.githubusercontent.com/oradcliffe/ARM-Unifi/master/",
     "ScriptFile": "Unifi_Controller",
     "ScriptType": ".sh",
-    "apiVersion": "2019-09-01",
+    "apiVersion": "2015-05-01-preview",
     "Location": "[resourceGroup().location]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
