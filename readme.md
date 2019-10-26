@@ -14,8 +14,10 @@ It is no longer being maintained, and I needed it so I have cloned it, pruned th
 This ARM template installs and configures the Unifi Controller software on an Ubuntu VM.
 It also creates and deploys a full Azure infrastructure configuration for the VM, including NSG ports using your public IP.
 
-Click the above link and fill in the required info for install!
+Click the above link and fill in the required info for install!  Please note that the storage account name is created by appending 'sa' to the server name, so if you have an error that the storage account name is not unique, modify the server name.
 
 Access your Unifi controller via https://yourPublicIP:8443
 
-For instructions on adoption, please see [this document](https://dl.ubnt.com/guides/UniFi/UniFi_Controller_V4_UG.pdf) starting on page 122.  DNS, DHCP, or SSH'ing directly into the AP are all valid.
+For instructions on setting up your Unifi controller, please see [this document.](https://dl.ubnt.com/guides/UniFi/UniFi_Controller_V4_UG.pdf)
+
+For instructions on AP adoption, please see the section starting on page 122, Layer 3 adoption.  DNS, DHCP, or SSH'ing directly into the AP are all valid.
