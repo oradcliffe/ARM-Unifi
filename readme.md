@@ -9,7 +9,7 @@
 
 This ARM template and configuration was borrowed from https://redeploy.se/deploy-unifi-controller-in-azure/
 
-It is no longer being maintained, and I needed it so I have cloned it, pruned the other projects out, and just kept the Unifi bits.
+It is no longer being maintained, and I needed it so I have cloned it, pruned the other projects out, and just kept the Unifi bits (and commit history).
 
 This ARM template installs and configures the Unifi Controller software on an Ubuntu VM.
 It also creates and deploys a full Azure infrastructure configuration for the VM, including NSG ports using your public IP.
