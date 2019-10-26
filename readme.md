@@ -16,7 +16,7 @@ It also creates and deploys a full Azure infrastructure configuration for the VM
 
 Click the above link and fill in the required info for install!  Please note that the storage account name is created by appending 'sa' to the server name, so if you have an error that the storage account name is not unique, modify the server name.
 
-Access your Unifi controller via https://yourPublicIP:8443
+Access your Unifi controller via https://yourAzureVMPublicIP:8443
 
 For instructions on setting up your Unifi controller, please see [this document.](https://dl.ubnt.com/guides/UniFi/UniFi_Controller_V4_UG.pdf)
 
