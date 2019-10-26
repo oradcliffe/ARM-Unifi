@@ -41,10 +41,10 @@
   },
   "Size": {
     "type": "string",
-    "defaultValue": "Standard_A0",
+    "defaultValue": "Standard_A1_v2",
     "allowedValues": [
-      "Standard_A0",
-      "Standard_A1"
+      "Standard_A1_v2",
+      "Standard_A2_v2"
     ],
     "metadata": {
       "description": "The size and type for the VM. For sizes see https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-size-specs/"
