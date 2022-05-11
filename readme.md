@@ -18,6 +18,6 @@ Click the above link and fill in the required info for install!  Please note tha
 
 Access your Unifi controller via https://yourAzureVMPublicIP:8443
 
-For instructions on setting up your Unifi controller, please see [this document.](https://dl.ubnt.com/guides/UniFi/UniFi_Controller_V4_UG.pdf)
+For instructions on setting up your Unifi controller, please see [this document.](https://dl.ui.com/guides/UniFi/UniFi_Controller_V5_UG.pdf)
 
-For instructions on AP adoption, please see the section starting on page 122, Layer 3 adoption.  DNS, DHCP, or SSH'ing directly into the AP are all valid.
+For instructions on AP adoption, please see the section starting on page 168, Layer 3 adoption.  DNS, DHCP, or SSH'ing directly into the AP are all valid.
